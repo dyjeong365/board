@@ -31,8 +31,8 @@ public class Article {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String author;
+//    @Column(nullable = false)
+//    private String author;
 
     @CreatedDate
     private LocalDateTime createdDate;
@@ -44,7 +44,7 @@ public class Article {
     public Article(String title, String content, String author) {
         this.title = title;
         this.content = content;
-        this.author = author;
+//        this.author = author;
         this.createdDate = LocalDateTime.now();
         this.lastModifiedDate = LocalDateTime.now();
     }
