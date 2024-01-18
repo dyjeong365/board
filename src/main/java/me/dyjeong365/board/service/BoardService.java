@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class BoardService {
     private final BoardRepository boardRepository;
 
-    public Article save(ArticleDto.Create request) {
+    public Article saveArticle(ArticleDto.Create request) {
         return boardRepository.save(request.toEntity());
     }
 }
