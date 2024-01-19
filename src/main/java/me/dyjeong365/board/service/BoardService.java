@@ -17,6 +17,6 @@ public class BoardService {
 
     public Article findArticle(Long id) {
         return boardRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("해당하는 id가 없습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 id가 없습니다."));
     }
 }
