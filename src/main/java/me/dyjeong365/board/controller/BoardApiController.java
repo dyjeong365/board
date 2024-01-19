@@ -1,5 +1,6 @@
 package me.dyjeong365.board.controller;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import me.dyjeong365.board.domain.Article;
 import me.dyjeong365.board.dto.ArticleDto;
@@ -30,5 +31,12 @@ public class BoardApiController {
         Article article = boardService.findArticle(id);
 
         return ResponseEntity.ok(article);
+    }
+
+    @GetMapping("/api/articles")
+    public ResponseEntity <List<Article>> getArticles() {
+        List<Article> articles = boardService.findArticles();
+
+        return ResponseEntity.ok(articles);
     }
 }
