@@ -18,7 +18,7 @@ public class BoardApiController {
     private final BoardService boardService;
 
     @PostMapping("/api/articles")
-    public ResponseEntity<Article> saveArticle(@RequestBody ArticleDto.Create request){
+    public ResponseEntity<Article> postArticle(@RequestBody ArticleDto.Create request) {
         Article article = boardService.saveArticle(request);
 
         return ResponseEntity.status(HttpStatus.CREATED)

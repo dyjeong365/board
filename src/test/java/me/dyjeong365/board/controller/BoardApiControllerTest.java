@@ -33,7 +33,7 @@ class BoardApiControllerTest {
 
     @DisplayName("saveArticle(): 게시판 글을 성공적으로 작성한다.")
     @Test
-    void saveArticle() throws Exception {
+    void postArticle() throws Exception {
         // given
         final String url = "/api/articles";
         final String title = "title";
