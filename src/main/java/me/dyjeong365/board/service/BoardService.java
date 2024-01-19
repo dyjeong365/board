@@ -1,5 +1,6 @@
 package me.dyjeong365.board.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import me.dyjeong365.board.domain.Article;
 import me.dyjeong365.board.dto.ArticleDto;
@@ -18,5 +19,9 @@ public class BoardService {
     public Article findArticle(Long id) {
         return boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 id가 없습니다."));
+    }
+
+    public List<Article> findArticles() {
+        return boardRepository.findAll();
     }
 }
