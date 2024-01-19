@@ -1,5 +1,6 @@
 package me.dyjeong365.board.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -7,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import me.dyjeong365.board.domain.Article;
 import me.dyjeong365.board.dto.ArticleDto;
 import me.dyjeong365.board.repository.BoardRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -50,6 +52,27 @@ class BoardApiControllerTest {
         resultActions
                 .andDo(print())
                 .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.title").value(title))
+                .andExpect(jsonPath("$.content").value(content));
+    }
+
+    @DisplayName("findArticle(): 특정 id의 글을 검색한다.")
+    @Test
+    void findArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+        ArticleDto.Create request = new ArticleDto.Create(title, content);
+        Article article = boardRepository.save(request.toEntity());
+
+        // when
+        ResultActions resultActions = mockMvc.perform(get(url, article.getId()));
+
+        // then
+        resultActions
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value(title))
                 .andExpect(jsonPath("$.content").value(content));
     }
