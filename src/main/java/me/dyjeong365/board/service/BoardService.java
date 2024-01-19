@@ -14,4 +14,9 @@ public class BoardService {
     public Article saveArticle(ArticleDto.Create request) {
         return boardRepository.save(request.toEntity());
     }
+
+    public Article findArticle(Long id) {
+        return boardRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("해당하는 id가 없습니다."));
+    }
 }
