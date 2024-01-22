@@ -27,11 +27,11 @@ public class BoardService {
     }
 
     @Transactional
+    public Article updateArticle(Long id, ArticleDto.Update request) {
+        Article exisitingArticle = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 id가 없습니다."));
 
-        exisitingArticle.setTitle(request.getTitle());
-        exisitingArticle.setContent(request.getContent());
-        exisitingArticle.setLastModifiedDate(request.getLastModifiedDate());
+        exisitingArticle.update(request.getTitle(), request.getContent());
 
         return boardRepository.save(exisitingArticle);
     }
