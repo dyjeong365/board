@@ -40,17 +40,5 @@ public class ArticleDto {
         @Size(min = 1, max = 1000)
         @NotNull
         private String content;
-
-        private LocalDateTime lastModifiedDate;
-
-        public Update(String title, String content) {
-            this.title = title;
-            this.content = content;
-            this.lastModifiedDate = LocalDateTime.now();
-        }
-
-        public void updateId(Long id) {
-            this.id = id;
-        }
     }
 }
