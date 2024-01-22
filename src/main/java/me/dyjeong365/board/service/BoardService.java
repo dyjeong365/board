@@ -1,5 +1,6 @@
 package me.dyjeong365.board.service;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import me.dyjeong365.board.domain.Article;
@@ -25,8 +26,7 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Article updateArticle(ArticleDto.Update request) {
-        Article exisitingArticle = boardRepository.findById(request.getId())
+    @Transactional
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 id가 없습니다."));
 
         exisitingArticle.setTitle(request.getTitle());
