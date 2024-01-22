@@ -3,6 +3,7 @@ package me.dyjeong365.board.controller;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -107,9 +108,39 @@ class BoardApiControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].title").value(title))
                 .andExpect(jsonPath("$[0].content").value(content))
+                .andExpect(jsonPath("$[1].title").value(title2))
+                .andExpect(jsonPath("$[1].content").value(content2))
                 .andReturn();
 
         List list = JsonPath.parse(result.getResponse().getContentAsString()).read("$");
         assertThat(list.size(), is(2));
+    }
+
+    @DisplayName("updateArticle(): 특정 id의 글을 수정한다.")
+    @Test
+    void updateArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+        ArticleDto.Create request = new ArticleDto.Create(title, content);
+        Article article = boardRepository.save(request.toEntity());
+
+        final String newTitle = "newTitle";
+        final String newContent = "newContent";
+        ArticleDto.Update request2 = new ArticleDto.Update(newTitle, newContent);
+        String requestBody = objectMapper.writeValueAsString(request2);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(patch(url, article.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        // then
+        resultActions
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(newTitle))
+                .andExpect(jsonPath("$.content").value(newContent));
     }
 }
