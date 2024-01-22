@@ -60,4 +60,10 @@ public class Article {
         this.createdDate = LocalDateTime.now();
         this.lastModifiedDate = LocalDateTime.now();
     }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.lastModifiedDate = LocalDateTime.now();
+    }
 }
