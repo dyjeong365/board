@@ -34,6 +34,12 @@ public class BoardService {
 
         return boardRepository.save(exisitingArticle);
     }
+
+    public void deleteArticle(Long id) {
+        validateId(id);
+        boardRepository.deleteById(id);
+    }
+
     private Article validateId(Long id) {
         return boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_ARTICLE));
