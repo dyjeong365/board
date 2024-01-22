@@ -62,6 +62,27 @@ class BoardApiControllerTest {
                 .andExpect(jsonPath("$.content").value(content));
     }
 
+    @DisplayName("saveArticle_Invalid(): 게시판 글 작성을 실패한다.")
+    @Test
+    void postArticle_Invalid() throws Exception {
+        // given
+        final String url = "/api/articles";
+        final String title = null;
+        final String content = "content";
+        ArticleDto.Create request = new ArticleDto.Create(title, content);
+        String requestBody = objectMapper.writeValueAsString(request);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        // then
+        resultActions
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
     @DisplayName("findArticle(): 특정 id의 글을 검색한다.")
     @Test
     void findArticle() throws Exception {
