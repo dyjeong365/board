@@ -143,4 +143,30 @@ class BoardApiControllerTest {
                 .andExpect(jsonPath("$.title").value(newTitle))
                 .andExpect(jsonPath("$.content").value(newContent));
     }
+
+    @DisplayName("updateArticle_Invalid(): 특정 id의 글 수정에 실패한다.")
+    @Test
+    void updateArticle_Invalid() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+        ArticleDto.Create request = new ArticleDto.Create(title, content);
+        Article article = boardRepository.save(request.toEntity());
+
+        final String newTitle = "newTitle";
+        final String newContent = "";
+        ArticleDto.Update request2 = new ArticleDto.Update(newTitle, newContent);
+        String requestBody = objectMapper.writeValueAsString(request2);
+
+        // when
+        ResultActions resultActions = mockMvc.perform(patch(url, article.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        // then
+        resultActions
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
 }
