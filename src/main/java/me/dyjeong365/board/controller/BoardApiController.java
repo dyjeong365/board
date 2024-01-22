@@ -9,6 +9,7 @@ import me.dyjeong365.board.service.BoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,5 +49,12 @@ public class BoardApiController {
         Article article = boardService.updateArticle(id, request);
 
         return ResponseEntity.ok(article);
+    }
+
+    @DeleteMapping("/api/articles/{id}")
+    public ResponseEntity<List<Article>> deleteArticle(@PathVariable Long id) {
+        boardService.deleteArticle(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
