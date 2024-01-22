@@ -2,6 +2,7 @@ package me.dyjeong365.board.controller;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -189,5 +190,26 @@ class BoardApiControllerTest {
         resultActions
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+
+    @DisplayName("deleteArticle(): 특정 id의 글을 삭제한다.")
+    @Test
+    void deleteArticle() throws Exception {
+        // given
+        final String url = "/api/articles/{id}";
+        final String title = "title";
+        final String content = "content";
+        ArticleDto.Create request = new ArticleDto.Create(title, content);
+        Article article = boardRepository.save(request.toEntity());
+
+        // when
+        ResultActions resultActions = mockMvc.perform(delete(url, article.getId()));
+
+        // then
+        resultActions
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        assertThat(boardRepository.count(), is(0L));
     }
 }
