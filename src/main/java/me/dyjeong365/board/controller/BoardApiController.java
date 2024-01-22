@@ -45,6 +45,7 @@ public class BoardApiController {
     @PatchMapping("/api/articles/{id}")
     public ResponseEntity<Article> patchArticle(@PathVariable Long id,
                                                 @Valid @RequestBody ArticleDto.Update request) {
+        Article article = boardService.updateArticle(id, request);
 
         return ResponseEntity.ok(article);
     }
