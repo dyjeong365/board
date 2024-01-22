@@ -40,6 +40,18 @@ public class Article {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     @Builder
     public Article(String title, String content, String author) {
         this.title = title;
