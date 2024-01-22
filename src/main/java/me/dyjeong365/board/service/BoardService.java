@@ -12,14 +12,14 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BoardService {
     private final BoardRepository boardRepository;
+    private static final String NOT_FOUND_ARTICLE = "해당하는 id가 없습니다.";
 
     public Article saveArticle(ArticleDto.Create request) {
         return boardRepository.save(request.toEntity());
     }
 
     public Article findArticle(Long id) {
-        return boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 id가 없습니다."));
+        return validateId(id);
     }
 
     public List<Article> findArticles() {
@@ -28,11 +28,14 @@ public class BoardService {
 
     @Transactional
     public Article updateArticle(Long id, ArticleDto.Update request) {
-        Article exisitingArticle = boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당하는 id가 없습니다."));
+        Article exisitingArticle = validateId(id);
 
         exisitingArticle.update(request.getTitle(), request.getContent());
 
         return boardRepository.save(exisitingArticle);
+    }
+    private Article validateId(Long id) {
+        return boardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(NOT_FOUND_ARTICLE));
     }
 }
